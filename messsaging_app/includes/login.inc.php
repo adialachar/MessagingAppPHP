@@ -3,7 +3,7 @@
 
 
 	if(isset($_POST['submit'])){
-
+		session_start();
 		include_once 'dbh.inc.php';
 
 		$username = $_POST['username'];
@@ -55,11 +55,33 @@
                                         elseif($hashedpwordCzech == true){
 						
                                                 //login
-                                                $_SESSION['u_id'] = $row['user_id'];
-                                                $_SESSION['u_first'] = $row['user_first'];
-                                                $_SESSION['u_last'] = $row['user_last'];
-                                                $_SESSION['u_email'] = $row['user_email'];
-                                                $_SESSION['u_uid'] = $row['user_uid'];
+                                                $_SESSION['u_id'] = $row['id'];
+                                                $_SESSION['u_first'] = $row['first_name'];
+                                                $_SESSION['u_last'] = $row['last_name'];
+                                                $_SESSION['u_email'] = $row['email'];
+                                                $_SESSION['u_username'] = $row['username'];
+
+						$fName = $row['first_name'];
+						$rID = $row['id'];
+	
+
+						$sql = "SELECT * FROM unread_messages where recipient = '$fName' AND id2 = '$rID';";
+						$result = mysqli_query($conn, $sql);
+						
+						$_SESSION['unread_messages'] = $result->fetch_assoc()['message'];
+						$numRows =  mysqli_num_rows($result);	
+						/*if ($numRows > 0){
+					
+
+							for(int i = 0; i < $numRows; ++i){
+								$rawMessage = $result->fetch_assoc()		
+								$Message = Message(
+
+							}
+	
+
+						 }*/
+
                                                 header("Location: ../profile.php");
                                                 exit();
 
