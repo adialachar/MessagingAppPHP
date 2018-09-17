@@ -5,6 +5,7 @@
 	if(isset($_POST['submit'])){
 		session_start();
 		include_once 'dbh.inc.php';
+		include_once 'messageClass.inc.php';
 
 		$username = $_POST['username'];
 		$password = $_POST['password'];
@@ -33,7 +34,7 @@
 			}
 
 			else{
-				echo "HELLO";
+			//	echo "HELLO";
 
 
 				if($row = mysqli_fetch_assoc($result)){
@@ -68,21 +69,34 @@
 						$sql = "SELECT * FROM unread_messages where recipient = '$fName' AND id2 = '$rID';";
 						$result = mysqli_query($conn, $sql);
 						
-						$_SESSION['unread_messages'] = $result->fetch_assoc()['message'];
-						$numRows =  mysqli_num_rows($result);	
-						/*if ($numRows > 0){
+						//$_SESSION['unread_messages'] = $result->fetch_assoc()['message'];
+						$numRows =  mysqli_num_rows($result);
+						//$messageArray = array();	
+						if ($numRows > 0){
 					
+							$_SESSION['unread_messages'] = array();
+							for($i = 0; $i < $numRows; $i++){
+								$rawMessage = $result->fetch_assoc();		
+								$Message = new Message($rawMessage['sender'], $rawMessage['id1'],$rawMessage['id2'], $rawMessage['recipient'], $rawMessage['message']);
+								array_push($_SESSION['unread_messages'], $Message);
 
-							for(int i = 0; i < $numRows; ++i){
-								$rawMessage = $result->fetch_assoc()		
-								$Message = Message(
+
+								//echo $messageArray[$i]->message;
+
+
 
 							}
 	
+							//$_SESSION['unread_messages'] = $messageArray;
+							echo "Accessing the session now: ";
+							echo $_SESSION['unread_messages'][0]->message;
+							echo $_SESSION['unread_messages'][1]->message;
+							echo $_SESSION['unread_messages'][0]->hello();
+						 }
 
-						 }*/
+						
 
-                                                header("Location: ../profile.php");
+                                               	header("Location: ../profile.php");
                                                 exit();
 
                                         }

@@ -1,6 +1,38 @@
 <?php
-
+include_once 'includes/messageClass.inc.php';
+include_once 'includes/dbh.inc.php';
 session_start();
+
+
+	//1. Make a query to the database
+	$ID = $_SESSION['u_id'];
+	$sql = "SELECT * FROM unread_messages WHERE id2 = '$ID';";
+	$result = mysqli_query($conn, $sql);
+	$numRows =  mysqli_num_rows($result);
+	echo "The number of rows is (please dont say zero)-->";
+	echo $numRows;
+	$_SESSION['unread_messages'] = array();
+	if ($numRows > 0){
+					
+		$_SESSION['unread_messages'] = array();
+		for($i = 0; $i < $numRows; $i++){
+			$rawMessage = $result->fetch_assoc();		
+			$Message = new Message($rawMessage['sender'], $rawMessage['id1'],$rawMessage['id2'], $rawMessage['recipient'], $rawMessage['message']);
+			array_push($_SESSION['unread_messages'], $Message);
+		}
+	
+							//$_SESSION['unread_messages'] = $messageArray;
+							//echo "Accessing the session now: ";
+							//echo $_SESSION['unread_messages'][0]->message;
+							//echo $_SESSION['unread_messages'][1]->message;
+						
+	 }
+
+
+
+
+
+
 
 
 ?>
@@ -37,9 +69,35 @@ session_start();
 	HELLO?
 
 
-	<h1> <?php echo $_SESSION['unread_messages']; ?> </h1>
+	<!--<style> .message-container{border = 1px black; 	border-radius = 24px;} </style> -->
+
+	<h1> <?php 
+			$messageArray = $_SESSION['unread_messages'];
+			for($i = 0; $i < $numRows; $i++){
+
+
+				//echo "<div style = 'color:blue;'>HELLO</div>";
+	
+
+
+
+
+
+
+
+
+				echo "Message"; echo ($i + 1);
+				echo $messageArray[$i]->sender;
+				echo $messageArray[$i]->senderID;
+				echo "<br>";
+				echo $messageArray[$i]->message;
+				echo "<br><br>";
+			}
+
+		?>
+	</h1>
+	
 	MELLO?	
-	<h1> <?php if(empty($_SESSION['unread_messages'])){ echo "Its empty my guy"; } ?> </h1>
 
 	BELLO?
 
