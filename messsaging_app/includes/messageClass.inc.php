@@ -31,6 +31,16 @@
 
 
 		}
+		public function recipientID(){
+
+			return $rID;
+
+		}
+		public function viewRecipient(){
+
+			return $recipient;
+
+		}
 
 
 

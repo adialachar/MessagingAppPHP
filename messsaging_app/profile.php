@@ -25,7 +25,7 @@ session_start();
 							//echo "Accessing the session now: ";
 							//echo $_SESSION['unread_messages'][0]->message;
 							//echo $_SESSION['unread_messages'][1]->message;
-						
+		$_SESSION['num_messages'] = $numRows;
 	 }
 
 
@@ -96,6 +96,24 @@ session_start();
 
 		?>
 	</h1>
+
+
+	<h1> <?php
+
+		
+		for( $i = 0; $i < $numRows; $i++){
+			$j = $i + 1;
+			echo "<form action = 'includes/read_message.inc.php' method = 'POST'>
+	     			<button type = 'submit' name = '$i'> View Message $j </button>";
+												
+		}
+		
+
+		?>
+
+	</h1>
+
+
 	
 	MELLO?	
 
