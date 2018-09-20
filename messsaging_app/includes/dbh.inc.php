@@ -4,7 +4,7 @@
 
 	$dbServername = "localhost";
 	$dbUsername = "root";
-	$dbPassword = "#!Varma98"; //Put back pass later
+	$dbPassword = ""; //Put back pass later
 	$dbName = "messaging_app";
 
 
